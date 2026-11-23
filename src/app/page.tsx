@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 
 const SHA256_HASH =
-  "F60CADA2E12673CD073A5024F09967605560326C178BCAEB68F6BE7A35C8998A";
+  "BCECF46A71AD7D85426C5731B30BCEA2BE8EF1E5F2FCEE4FF0490D67DCD025CF";
 
 function VideoShowcasePlayer({
   src,
@@ -171,18 +171,18 @@ export default function NotchiPage() {
     },
     {
       step: "02",
-      title: "Enter Your Jira Site URL & Project Key",
-      body: "Hover the top-center bezel of your monitor to expand Notchi. Enter your Jira Cloud URL (e.g. https://your-team.atlassian.net or paste your full board link) and your Project Key (e.g. SM360).",
+      title: "Enter Jira Site URL & Space (or 'AUTO')",
+      body: "Hover the top-center bezel to expand Notchi. Enter your Jira Cloud URL and leave Space set to 'AUTO' (or enter any Space name/key like SM360, AAIRI, HRIS, LIMS). Notchi automatically discovers all Kanban spaces you belong to.",
     },
     {
       step: "03",
       title: "Enter Email & Paste Your API Key",
-      body: "Type your Atlassian account email address and paste your copied API token into the masked API Token field.",
+      body: "Type your Atlassian account email address and paste your copied API token. Notchi automatically detects whether your role is Developer (Assignee) or IQA Officer.",
     },
     {
       step: "04",
-      title: "Save & Connect (Cached Permanently)",
-      body: "Click 'Save & Connect' or press Enter. Notchi caches your account locally in %LOCALAPPDATA%\\Notchi\\ so you never need to log in again unless your API key expires or you click Sign Out.",
+      title: "Switch Spaces & Roles Anytime",
+      body: "Click 'Save & Connect'. Inside the Notch, click the Board pill (e.g. 'SM360 Board ▾') to switch between any of your Jira Spaces (or 'All My Spaces'), and click the 'Role: DEV / IQA' pill to toggle roles anytime.",
     },
   ];
 
