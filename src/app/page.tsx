@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 
 const SHA256_HASH =
-  "27AE3411D9F175DF2EA915E1107D4F5E6D9D650A04B1A263650C350B9DA51261";
+  "0B93391ED480D8DD5D900F811931AB6D42F6A853CB4FC7A02654B489E8E05EEF";
 
 function VideoShowcasePlayer({
   src,
@@ -172,8 +172,8 @@ export default function NotchiPage() {
     },
     {
       step: "02",
-      title: "Enter Jira Site URL & Space (or 'AUTO')",
-      body: "Hover the top-center bezel to expand Notchi. Enter your Jira Cloud URL and leave Space set to 'AUTO' (or enter any Space name/key like SM360, AAIRI, HRIS, LIMS). Notchi automatically discovers all Kanban spaces you belong to.",
+      title: "Select Your Kanban Space (or Auto-Detect)",
+      body: "Hover the top-center bezel to expand Notchi. Enter your Jira Cloud URL and click the 'KANBAN SPACE' dropdown capsule to pick your Space from the full workspace list (or leave it on 'Auto-Detect' so Notchi finds your active boards automatically).",
     },
     {
       step: "03",
@@ -585,13 +585,16 @@ export default function NotchiPage() {
                 </div>
                 <div className="p-4 rounded-xl bg-[#09090b] border border-white/[0.05]">
                   <div className="font-mono text-[11px] uppercase tracking-wider text-[#e4e4e7] mb-1.5">
-                    Zero-Config Space Discovery (AUTO Mode)
+                    Selectable Space Dropdown on Login & Nook
                   </div>
                   <p className="leading-relaxed">
-                    Coworkers across different Kanban boards (SM360, AAIRI,
-                    HRIS, LIMS, LMS, SDA, IPS, PartnerPay, etc.) no longer need
-                    to know their project key—Notchi discovers every Space where
-                    they have tasks and auto-switches on connect.
+                    Employees no longer need to memorize or type project codes—
+                    the <code className="font-mono text-[#e4e4e7]">KANBAN SPACE</code>{" "}
+                    field on the Login screen is now a clickable dropdown
+                    selector pre-loaded with{" "}
+                    <code className="font-mono text-[#e4e4e7]">Auto-Detect My Space</code>,{" "}
+                    <code className="font-mono text-[#e4e4e7]">All My Spaces</code>, and
+                    all 24 workspace boards with instant search filtering.
                   </p>
                 </div>
                 <div className="p-4 rounded-xl bg-[#09090b] border border-white/[0.05]">
