@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+:root {
+  --bg-canvas: #070709;
+  --bg-surface: #0e0e12;
+  --bg-elevated: #15151b;
+  --border-hairline: #22222b;
+  --text-primary: #f4f4f6;
+  --text-secondary: #a1a1aa;
+  --text-muted: #696973;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes bubblePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.45) translateY(-18px);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.015) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-bubble {
+  animation: bubblePop 240ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Custom subtle scrollbars inside simulated widgets */
+.notchi-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.notchi-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.notchi-scroll::-webkit-scrollbar-thumb {
+  background: #272732;
+  border-radius: 9999px;
+}
