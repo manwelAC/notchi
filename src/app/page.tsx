@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import Link from "next/link";
 import {
   Download,
   Check,
@@ -15,7 +16,6 @@ import {
   Maximize2,
   ExternalLink,
   KeyRound,
-  GitCommitHorizontal,
 } from "lucide-react";
 
 const SHA256_HASH =
@@ -224,12 +224,13 @@ export default function NotchiPage() {
             >
               Architecture
             </a>
-            <a href="#versions" className="hover:text-white transition-colors">
-              Versions
-            </a>
             <a href="#download" className="hover:text-white transition-colors">
               Release Package
             </a>
+            <Link href="/versions" className="hover:text-white transition-colors">
+              Versions
+            </Link>
+
           </nav>
 
           <div className="flex items-center gap-3">
@@ -497,224 +498,6 @@ export default function NotchiPage() {
           </div>
         </section>
 
-        {/* Versions & Changelog Section */}
-        <section
-          id="versions"
-          className="max-w-[1240px] mx-auto px-6 py-16 border-t border-white/[0.07]"
-        >
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-[#a1a1aa] px-2.5 py-1 rounded bg-white/[0.04] border border-white/[0.06] mb-3">
-                <GitCommitHorizontal className="w-3.5 h-3.5 text-[#32d74b]" />
-                <span>Release History & Package Updates</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
-                Versions
-              </h2>
-              <p className="mt-2.5 text-[15px] text-[#a1a1aa] leading-relaxed">
-                Every standalone Windows build packaged for Notchi, detailing
-                new capabilities, Kanban engine upgrades, and UI refinements.
-              </p>
-            </div>
-            <div className="flex items-center gap-2.5 text-[12px] font-mono text-[#a1a1aa] px-3.5 py-2 rounded-xl bg-[#0e0e12] border border-white/[0.07]">
-              <span className="w-2 h-2 rounded-full bg-[#32d74b]" />
-              <span>Latest Stable Build:</span>
-              <span className="text-white font-semibold">v1.3.0 (Win x64)</span>
-            </div>
-          </div>
-
-          <div className="space-y-5">
-            {/* v1.3.0 — Latest */}
-            <div className="rounded-2xl bg-[#0e0e12] border border-white/[0.11] p-6 sm:p-8">
-              <div className="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-white/[0.07]">
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="font-mono text-[15px] font-bold text-white px-3 py-1 rounded-lg bg-[#18181f] border border-white/[0.1]">
-                    v1.3.0
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-md bg-[#112617] text-[#32d74b] border border-[#32d74b]/30">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#32d74b]" />
-                    <span>Latest Release</span>
-                  </span>
-                  <span className="text-[14px] font-semibold text-white">
-                    Dynamic Multi-Space Kanban, Dev / IQA Role Engine & Custom Space Modal
-                  </span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="font-mono text-[12px] text-[#696973]">
-                    Windows 10/11 x64 · Notchi-Windows-x64.zip
-                  </span>
-                  <a
-                    href="/downloads/Notchi-Windows-x64.zip"
-                    download
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f4f4f6] hover:bg-white text-[#09090b] font-semibold text-[12px] transition-colors"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>Download v1.3.0</span>
-                  </a>
-                </div>
-              </div>
-
-              <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 text-[13.5px] text-[#a1a1aa]">
-                <div className="p-4 rounded-xl bg-[#09090b] border border-white/[0.05]">
-                  <div className="font-mono text-[11px] uppercase tracking-wider text-[#32d74b] mb-1.5">
-                    Custom Space Switcher Popover Modal
-                  </div>
-                  <p className="leading-relaxed">
-                    Replaced the native Windows dropdown menu with a custom
-                    DWM-rounded hardware popover featuring bubble-open spring
-                    animation, instant live search filtering across all 24
-                    workspace spaces, active task count pills, and crisp vector
-                    chevron rendering.
-                  </p>
-                </div>
-                <div className="p-4 rounded-xl bg-[#09090b] border border-white/[0.05]">
-                  <div className="font-mono text-[11px] uppercase tracking-wider text-[#38bdf8] mb-1.5">
-                    Automatic Dev & IQA Officer Role Detection
-                  </div>
-                  <p className="leading-relaxed">
-                    Automatically queries both Developer assignments (
-                    <code className="font-mono text-[#e4e4e7]">assignee = currentUser()</code>
-                    ) and IQA Officer tasks (
-                    <code className="font-mono text-[#e4e4e7]">IQA Officer cf[10179]</code>{" "}
-                    &{" "}
-                    <code className="font-mono text-[#e4e4e7]">watcher</code>),
-                    with a 1-click{" "}
-                    <code className="font-mono text-[#e4e4e7]">Role: DEV / IQA / ALL</code>{" "}
-                    header toggle.
-                  </p>
-                </div>
-                <div className="p-4 rounded-xl bg-[#09090b] border border-white/[0.05]">
-                  <div className="font-mono text-[11px] uppercase tracking-wider text-[#e4e4e7] mb-1.5">
-                    Selectable Space Dropdown on Login & Nook
-                  </div>
-                  <p className="leading-relaxed">
-                    Employees no longer need to memorize or type project codes—
-                    the <code className="font-mono text-[#e4e4e7]">KANBAN SPACE</code>{" "}
-                    field on the Login screen is now a clickable dropdown
-                    selector pre-loaded with{" "}
-                    <code className="font-mono text-[#e4e4e7]">Auto-Detect My Space</code>,{" "}
-                    <code className="font-mono text-[#e4e4e7]">All My Spaces</code>, and
-                    all 24 workspace boards with instant search filtering.
-                  </p>
-                </div>
-                <div className="p-4 rounded-xl bg-[#09090b] border border-white/[0.05]">
-                  <div className="font-mono text-[11px] uppercase tracking-wider text-[#e4e4e7] mb-1.5">
-                    Adaptive 3×3 Kanban Workflow Grid
-                  </div>
-                  <p className="leading-relaxed">
-                    Dynamically adapts the 9 Kanban status tiles inside the
-                    notch to match the exact statuses used by non-SM360 boards
-                    while preserving the canonical 9-column SM360 layout when
-                    viewing SM360.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Older Versions Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {/* v1.2.0 */}
-              <div className="rounded-2xl bg-[#0e0e12] border border-white/[0.07] p-6 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between gap-2 pb-3.5 mb-4 border-b border-white/[0.06]">
-                    <span className="font-mono text-[13px] font-bold text-[#e4e4e7] px-2.5 py-0.5 rounded bg-white/[0.05] border border-white/[0.07]">
-                      v1.2.0
-                    </span>
-                    <span className="font-mono text-[11px] text-[#696973]">
-                      Auth & Auto-Sync Update
-                    </span>
-                  </div>
-                  <h3 className="text-[15px] font-semibold text-white mb-2.5">
-                    iOS-Style Login Capsules & Delta Auto-Sync
-                  </h3>
-                  <ul className="space-y-2 text-[13px] text-[#a1a1aa] leading-relaxed">
-                    <li>
-                      • Borderless iOS-style rounded input capsules with active
-                      blue focus ring and inline{" "}
-                      <code className="font-mono text-[#e4e4e7]">Show / Hide</code>{" "}
-                      API token toggle.
-                    </li>
-                    <li>
-                      • Background 30-second delta{" "}
-                      <code className="font-mono text-[#e4e4e7]">● Auto-Sync</code>{" "}
-                      and instant hover-expand refresh with zero UI stutter.
-                    </li>
-                    <li>
-                      • Dedicated <code className="font-mono text-[#e4e4e7]">Sign Out</code>{" "}
-                      button to clear cached credentials in one click.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* v1.1.0 */}
-              <div className="rounded-2xl bg-[#0e0e12] border border-white/[0.07] p-6 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between gap-2 pb-3.5 mb-4 border-b border-white/[0.06]">
-                    <span className="font-mono text-[13px] font-bold text-[#e4e4e7] px-2.5 py-0.5 rounded bg-white/[0.05] border border-white/[0.07]">
-                      v1.1.0
-                    </span>
-                    <span className="font-mono text-[11px] text-[#696973]">
-                      Inspector & Motion Update
-                    </span>
-                  </div>
-                  <h3 className="text-[15px] font-semibold text-white mb-2.5">
-                    120Hz Bubble Panels & Task Inspector
-                  </h3>
-                  <ul className="space-y-2 text-[13px] text-[#a1a1aa] leading-relaxed">
-                    <li>
-                      • Bubble-open and bubble-close spring animations on
-                      floating Status Task List and Task Detail Inspector windows.
-                    </li>
-                    <li>
-                      • Full Atlassian Document Format (ADF) description parser
-                      with custom fields (<code className="font-mono text-[#e4e4e7]">Document ID</code>,{" "}
-                      <code className="font-mono text-[#e4e4e7]">IQA Officer</code>,{" "}
-                      <code className="font-mono text-[#e4e4e7]">Team</code>).
-                    </li>
-                    <li>
-                      • Unified global pointer-coordinate mousewheel scrolling
-                      across all floating panels.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* v1.0.0 */}
-              <div className="rounded-2xl bg-[#0e0e12] border border-white/[0.07] p-6 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between gap-2 pb-3.5 mb-4 border-b border-white/[0.06]">
-                    <span className="font-mono text-[13px] font-bold text-[#e4e4e7] px-2.5 py-0.5 rounded bg-white/[0.05] border border-white/[0.07]">
-                      v1.0.0
-                    </span>
-                    <span className="font-mono text-[11px] text-[#696973]">
-                      Initial Release
-                    </span>
-                  </div>
-                  <h3 className="text-[15px] font-semibold text-white mb-2.5">
-                    Top-Bezel Hardware Notch Engine
-                  </h3>
-                  <ul className="space-y-2 text-[13px] text-[#a1a1aa] leading-relaxed">
-                    <li>
-                      • 2× Lanczos supersampled notch silhouette with outward
-                      concave top ears and zero wallpaper color-key bleed.
-                    </li>
-                    <li>
-                      • End-to-end dual & triple monitor dragging across{" "}
-                      <code className="font-mono text-[#e4e4e7]">SM_XVIRTUALSCREEN</code>{" "}
-                      with double-click center snapping.
-                    </li>
-                    <li>
-                      • Local <code className="font-mono text-[#e4e4e7]">%LOCALAPPDATA%\Notchi</code>{" "}
-                      session persistence.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Release Package & Direct Download Section */}
         <section
           id="download"
@@ -817,7 +600,9 @@ export default function NotchiPage() {
             <span>Notchi — Top-Bezel Jira Utility for Windows</span>
           </div>
           <div className="font-mono text-[11px]">
-            Built for Jira Cloud REST API v3 · Ready for Vercel Deployment
+            <Link href="/versions" className="hover:text-white transition-colors">
+              Versions & release notes
+            </Link>
           </div>
         </div>
       </footer>
