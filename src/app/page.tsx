@@ -13,16 +13,27 @@ import {
   Pause,
   RotateCcw,
   Maximize2,
+  ExternalLink,
+  KeyRound,
 } from "lucide-react";
 
 const SHA256_HASH =
-  "1F0A68D550CECF38209EEC3405E645C9190E248C89D159E974649A3AAE6A8258";
+  "F60CADA2E12673CD073A5024F09967605560326C178BCAEB68F6BE7A35C8998A";
 
-export default function NotchiPage() {
+function VideoShowcasePlayer({
+  src,
+  badgeText,
+  subtitle,
+  footerLeft,
+}: {
+  src: string;
+  badgeText: string;
+  subtitle: string;
+  footerLeft: string;
+}) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [progress, setProgress] = useState<number>(0);
-  const [copiedSha, setCopiedSha] = useState<boolean>(false);
 
   const togglePlay = () => {
     const v = videoRef.current;
@@ -58,11 +69,122 @@ export default function NotchiPage() {
     setProgress((v.currentTime / v.duration) * 100);
   };
 
+  return (
+    <div>
+      {/* Top Video Frame Bar */}
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-[#0e0e12] border border-white/[0.07]">
+        <div className="flex items-center gap-3">
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-[#e4e4e7]">
+            <span className="w-2 h-2 rounded-full bg-[#32d74b]" />
+            <span>{badgeText}</span>
+          </span>
+          <span className="text-white/15">|</span>
+          <span className="text-[12px] text-[#a1a1aa]">{subtitle}</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={togglePlay}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-[12px] font-medium bg-[#18181f] hover:bg-[#22222c] text-[#e4e4e7] border border-white/[0.07] transition-colors cursor-pointer"
+          >
+            {isPlaying ? (
+              <>
+                <Pause className="w-3.5 h-3.5" />
+                <span>Pause</span>
+              </>
+            ) : (
+              <>
+                <Play className="w-3.5 h-3.5" />
+                <span>Play</span>
+              </>
+            )}
+          </button>
+          <button
+            onClick={restartVideo}
+            title="Restart video"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[12px] font-medium bg-[#18181f] hover:bg-[#22222c] text-[#a1a1aa] hover:text-white border border-white/[0.07] transition-colors cursor-pointer"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Replay</span>
+          </button>
+          <button
+            onClick={openFullscreen}
+            title="Fullscreen"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[12px] font-medium bg-[#18181f] hover:bg-[#22222c] text-[#a1a1aa] hover:text-white border border-white/[0.07] transition-colors cursor-pointer"
+          >
+            <Maximize2 className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Hardware Bezel Video Container */}
+      <div className="relative rounded-2xl border border-white/[0.11] bg-[#0a0b0f] overflow-hidden shadow-[0_28px_80px_rgba(0,0,0,0.85)]">
+        <div className="relative w-full aspect-video bg-[#070709]">
+          <video
+            ref={videoRef}
+            src={src}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onClick={togglePlay}
+            onTimeUpdate={handleTimeUpdate}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            className="w-full h-full object-contain cursor-pointer"
+          />
+        </div>
+
+        {/* Subtle Progress Hairline Bar + Telemetry Footer */}
+        <div className="w-full h-[2px] bg-[#16161d]">
+          <div
+            className="h-full bg-[#f4f4f6] transition-all duration-100"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+
+        <div className="px-5 py-3 bg-[#0b0b0f] flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-[#696973]">
+          <span>{footerLeft}</span>
+          <span>CLICK VIDEO TO PAUSE / RESUME</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function NotchiPage() {
+  const [copiedSha, setCopiedSha] = useState<boolean>(false);
+
   const copyChecksum = () => {
     navigator.clipboard.writeText(SHA256_HASH);
     setCopiedSha(true);
     setTimeout(() => setCopiedSha(false), 2000);
   };
+
+  const loginSteps = [
+    {
+      step: "01",
+      title: "Generate an Atlassian API Token",
+      body: "Click 'Get New API Key ↗' inside Notchi (or open id.atlassian.com/manage-profile/security/api-tokens). Click Create API token, give it a label like 'notchi', and copy the token.",
+      linkText: "Open Atlassian API Tokens ↗",
+      linkHref: "https://id.atlassian.com/manage-profile/security/api-tokens",
+    },
+    {
+      step: "02",
+      title: "Enter Your Jira Site URL & Project Key",
+      body: "Hover the top-center bezel of your monitor to expand Notchi. Enter your Jira Cloud URL (e.g. https://your-team.atlassian.net or paste your full board link) and your Project Key (e.g. SM360).",
+    },
+    {
+      step: "03",
+      title: "Enter Email & Paste Your API Key",
+      body: "Type your Atlassian account email address and paste your copied API token into the masked API Token field.",
+    },
+    {
+      step: "04",
+      title: "Save & Connect (Cached Permanently)",
+      body: "Click 'Save & Connect' or press Enter. Notchi caches your account locally in %LOCALAPPDATA%\\Notchi\\ so you never need to log in again unless your API key expires or you click Sign Out.",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-[#070709] text-[#f4f4f6] flex flex-col">
@@ -88,6 +210,12 @@ export default function NotchiPage() {
           <nav className="hidden md:flex items-center gap-8 text-[13px] text-[#a1a1aa]">
             <a href="#demo" className="hover:text-white transition-colors">
               Video Demo
+            </a>
+            <a
+              href="#how-to-login"
+              className="hover:text-white transition-colors"
+            >
+              How to Login
             </a>
             <a
               href="#architecture"
@@ -166,87 +294,79 @@ export default function NotchiPage() {
           </div>
         </section>
 
-        {/* Video Demo Showcase Section */}
+        {/* Main Video Demo Showcase Section */}
         <section id="demo" className="max-w-[1240px] mx-auto px-6 pb-20">
-          {/* Top Video Frame Bar */}
-          <div className="mb-3 flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-[#0e0e12] border border-white/[0.07]">
-            <div className="flex items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-[#e4e4e7]">
-                <span className="w-2 h-2 rounded-full bg-[#32d74b]" />
-                <span>60 FPS Desktop Capture</span>
-              </span>
-              <span className="text-white/15">|</span>
-              <span className="text-[12px] text-[#a1a1aa]">
-                Hover expansion, Kanban status drill-down, bubble-animated task
-                list, and ticket inspection in action.
-              </span>
-            </div>
+          <VideoShowcasePlayer
+            src="/demo/notchi-demo.mp4"
+            badgeText="60 FPS Desktop Capture"
+            subtitle="Hover expansion, Kanban status drill-down, bubble-animated task list, and ticket inspection in action."
+            footerLeft="SOURCE: LIVE WINDOWS 11 DESKTOP CAPTURE (1280×720 · 60FPS)"
+          />
+        </section>
 
-            <div className="flex items-center gap-2">
-              <button
-                onClick={togglePlay}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-[12px] font-medium bg-[#18181f] hover:bg-[#22222c] text-[#e4e4e7] border border-white/[0.07] transition-colors cursor-pointer"
-              >
-                {isPlaying ? (
-                  <>
-                    <Pause className="w-3.5 h-3.5" />
-                    <span>Pause</span>
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-3.5 h-3.5" />
-                    <span>Play</span>
-                  </>
-                )}
-              </button>
-              <button
-                onClick={restartVideo}
-                title="Restart video"
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[12px] font-medium bg-[#18181f] hover:bg-[#22222c] text-[#a1a1aa] hover:text-white border border-white/[0.07] transition-colors cursor-pointer"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Replay</span>
-              </button>
-              <button
-                onClick={openFullscreen}
-                title="Fullscreen"
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[12px] font-medium bg-[#18181f] hover:bg-[#22222c] text-[#a1a1aa] hover:text-white border border-white/[0.07] transition-colors cursor-pointer"
-              >
-                <Maximize2 className="w-3.5 h-3.5" />
-              </button>
+        {/* How to Login Video + Step-by-Step Instructions Section */}
+        <section
+          id="how-to-login"
+          className="max-w-[1240px] mx-auto px-6 py-16 border-t border-white/[0.07]"
+        >
+          <div className="max-w-2xl mb-8">
+            <div className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-[#a1a1aa] px-2.5 py-1 rounded bg-white/[0.04] border border-white/[0.06] mb-3">
+              <KeyRound className="w-3.5 h-3.5 text-[#32d74b]" />
+              <span>Authentication & Setup Walkthrough</span>
             </div>
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+              How to Login
+            </h2>
+            <p className="mt-2.5 text-[15px] text-[#a1a1aa] leading-relaxed">
+              Connect your Atlassian Jira Cloud account once using an API token.
+              Your session is cached locally on your machine so Notchi connects
+              automatically every time you launch it.
+            </p>
           </div>
 
-          {/* Hardware Bezel Video Container */}
-          <div className="relative rounded-2xl border border-white/[0.11] bg-[#0a0b0f] overflow-hidden shadow-[0_28px_80px_rgba(0,0,0,0.85)]">
-            <div className="relative w-full aspect-video bg-[#070709]">
-              <video
-                ref={videoRef}
-                src="/demo/notchi-demo.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                onClick={togglePlay}
-                onTimeUpdate={handleTimeUpdate}
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-                className="w-full h-full object-contain cursor-pointer"
-              />
-            </div>
+          {/* How to Login Video Player */}
+          <VideoShowcasePlayer
+            src="/demo/how-to-login.mp4"
+            badgeText="How to Login Walkthrough"
+            subtitle="Generating an Atlassian API token, pasting credentials into Notchi, and connecting to your Jira project."
+            footerLeft="WALKTHROUGH: ONE-TIME ATLASSIAN API TOKEN SETUP (1280×720 · 60FPS)"
+          />
 
-            {/* Subtle Progress Hairline Bar + Telemetry Footer */}
-            <div className="w-full h-[2px] bg-[#16161d]">
+          {/* Step-by-Step Instructions Below the Video */}
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {loginSteps.map((item) => (
               <div
-                className="h-full bg-[#f4f4f6] transition-all duration-100"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
+                key={item.step}
+                className="p-6 rounded-2xl bg-[#0e0e12] border border-white/[0.07] flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="font-mono text-[11px] font-bold px-2.5 py-0.5 rounded bg-white/[0.05] text-[#e4e4e7] border border-white/[0.07]">
+                      STEP {item.step}
+                    </span>
+                  </div>
+                  <h3 className="text-[15px] font-semibold text-white leading-snug">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-[13px] text-[#a1a1aa] leading-relaxed">
+                    {item.body}
+                  </p>
+                </div>
 
-            <div className="px-5 py-3 bg-[#0b0b0f] flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-[#696973]">
-              <span>SOURCE: LIVE WINDOWS 11 DESKTOP CAPTURE (1280×720 · 60FPS)</span>
-              <span>CLICK VIDEO TO PAUSE / RESUME</span>
-            </div>
+                {item.linkHref && (
+                  <div className="mt-4 pt-3 border-t border-white/[0.06]">
+                    <a
+                      href={item.linkHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#f4f4f6] hover:underline"
+                    >
+                      <span>{item.linkText}</span>
+                    </a>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </section>
 
