@@ -1,23 +1,30 @@
 # Notchi
 
-**A hardware-grade macOS-style top-bezel Jira Notch utility for Windows 10 & 11.**
+A Jira desktop notch for Windows 10/11 x64.
 
----
+## Latest release: 1.4.0 — 24 November 2026
 
-## Video Demo
+- Cached rendering and silhouette masks reduce repeated drawing during animations.
+- Saved dashboard snapshots display while Jira refreshes; role searches run in parallel and full task details load on demand.
+- Refresh timeouts, automatic retry backoff, and an accessible error log.
+- Twelve colorways with light/dark modes, gradient notch backgrounds, and adaptive text. Graphite Dark remains the original default.
+- Optional **Side docking** toggle: enable it, then drag to the left, right, or top edge. Disable it to return to the top.
+- Borderless Settings and task panels, traffic-light controls, custom status dropdowns, and button feedback.
+- Save status changes directly to Jira using the transitions and required fields allowed by its workflow.
 
-[![Notchi Video Demo](public/demo/notchi-demo.gif)](public/demo/notchi-demo.mp4)
+## Video
 
----
+[Watch the v1.4.0 walkthrough](public/demo/notchi-v1.4.0.mp4)
 
-## Features
+## Download
 
-- **Tactile Top-Bezel Hardware Notch** — Sits flush at the top-center of your display with authentic outward concave notch ears and 2× Lanczos supersampled anti-aliasing (zero wallpaper bleed-through).
-- **120Hz Hover Expand & Collapse** — Rests as a slim pill showing your active project total, completion percentage, and mini activity ring, and smoothly expands into the full **Nook** view when you move your cursor to the top bezel.
-- **Live Multi-Space Jira Kanban Sync** — Automatically discovers all Jira Spaces you work in (`SM360`, `AAIRI`, `HRIS`, `Inventory and Procurement`, `LIMS`, `LMS`, `CUSP`, `AMS`, etc.) and adapts the 3×3 Kanban status grid to each space's workflow. Click the **`Board ▾`** switcher pill inside the Notch to jump between spaces or view **`All My Spaces`**.
-- **Automatic Dev & IQA Role Detection** — Automatically detects whether you are a **Developer** (`Assignee`) or an **IQA Officer** (`IQA Officer` / active `Watcher`), with a 1-click **`Role: DEV / IQA / ALL`** toggle pill right inside the Notch.
-- **Bubble-Animated Floating Task List** — Click any status tile inside the Notch to bloom open a hardware-rounded Windows 11 floating panel listing every ticket in that column with its Issue Key, FRD Document ID, attachment count, and summary.
-- **Full Ticket & Attachment Inspector** — Click any task row to bloom open the companion **Task Inspector** widget displaying custom fields (`Document ID`, `Team`, `Consult To`, `Environment`), full parsed Atlassian Document Format (`ADF`) descriptions, and 1-click attachment viewing.
-- **End-to-End Multi-Monitor Dragging** — Click and drag the Notch seamlessly across dual or triple monitors, or double-click the top grip to snap directly to the center of your current display.
-- **Permanent Local Account Cache** — Caches your Atlassian session locally in `%LOCALAPPDATA%\Notchi\` so you never have to log in again, automatically prompting you only when your Jira API token expires.
-- **Standalone Windows Executable (`Notchi.exe`)** — Runs out of the box on Windows 10/11 (x64) with zero Python runtime or external dependencies required.
+[Notchi 1.4.0 for Windows x64](public/downloads/Notchi-1.4.0-Windows-x64.zip)
+
+Quit Notchi before replacing the executable. Extract the archive and run `Notchi.exe`.
+Local preferences remain in `%LOCALAPPDATA%\Notchi`. This release has no automatic updater.
+Package size and SHA-256 are recorded in `public/downloads/release.json` and displayed on the website.
+
+## Website
+
+Run `npm run dev` for local development, or `npm run build` followed by `npm start` for production.
+The homepage and newest-first collapsible `/versions` index share release metadata in `src/lib/release.ts`.

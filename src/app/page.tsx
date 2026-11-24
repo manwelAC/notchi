@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
+import { RELEASE } from "@/lib/release";
 import {
   Download,
   Check,
@@ -18,8 +19,7 @@ import {
   KeyRound,
 } from "lucide-react";
 
-const SHA256_HASH =
-  "7B39926D449F9A2126E6E46FC24119918567113724274708195782634EE0C789";
+const SHA256_HASH = RELEASE.sha256;
 
 function VideoShowcasePlayer({
   src,
@@ -203,7 +203,7 @@ export default function NotchiPage() {
                 Notchi
               </span>
               <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-white/[0.05] text-[#a1a1aa] border border-white/[0.07]">
-                v1.3.0 · Win x64
+                v{RELEASE.version} · Win x64
               </span>
             </div>
           </div>
@@ -235,7 +235,7 @@ export default function NotchiPage() {
 
           <div className="flex items-center gap-3">
             <a
-              href="/downloads/Notchi-Windows-x64.zip"
+              href={RELEASE.download}
               download
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#f4f4f6] text-[#09090b] font-medium text-[13px] hover:bg-white transition-colors"
             >
@@ -265,7 +265,7 @@ export default function NotchiPage() {
               </h1>
               <p className="mt-5 text-[16px] sm:text-[17px] text-[#a1a1aa] max-w-[62ch] leading-relaxed">
                 Notchi turns the top-center of your Windows monitor into a tactile
-                120Hz hardware notch. Hover to inspect live Kanban status counts,
+                customizable desktop notch. Restore saved dashboard data while Jira refreshes,
                 click any column tile to bloom open its task list, and inspect
                 FRD document IDs, descriptions, and attachments without touching a
                 browser tab.
@@ -274,7 +274,7 @@ export default function NotchiPage() {
 
             <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
               <a
-                href="/downloads/Notchi-Windows-x64.zip"
+                href={RELEASE.download}
                 download
                 className="w-full sm:w-auto lg:w-full inline-flex items-center justify-between px-5 py-3.5 rounded-xl bg-[#f4f4f6] text-[#09090b] font-semibold text-[14px] hover:bg-white transition-all group"
               >
@@ -302,11 +302,35 @@ export default function NotchiPage() {
         {/* Main Video Demo Showcase Section */}
         <section id="demo" className="max-w-[1240px] mx-auto px-6 pb-20">
           <VideoShowcasePlayer
-            src="/demo/notchi-demo.mp4"
-            badgeText="60 FPS Desktop Capture"
-            subtitle="Hover expansion, Kanban status drill-down, bubble-animated task list, and ticket inspection in action."
-            footerLeft="SOURCE: LIVE WINDOWS 11 DESKTOP CAPTURE (1280×720 · 60FPS)"
+            src={RELEASE.video}
+            badgeText="New in v1.4.0"
+            subtitle="Watch the latest Notchi desktop walkthrough."
+            footerLeft="RELEASE WALKTHROUGH · 24 NOVEMBER 2026 · 1280×720"
           />
+        </section>
+
+        <section id="whats-new" className="mx-auto max-w-[1240px] border-t border-white/[0.07] px-6 py-16">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="mb-3 font-mono text-xs uppercase tracking-wider text-[#a1a1aa]">v{RELEASE.version} · {RELEASE.date}</p>
+              <h2 className="text-3xl font-semibold tracking-tight text-white">A smoother notch. More your own.</h2>
+            </div>
+            <Link href={`/versions#v${RELEASE.version}`} className="text-sm text-[#e4e4e7] underline underline-offset-4">Full release notes</Link>
+          </div>
+          <div className="grid gap-x-10 gap-y-8 md:grid-cols-2">
+            {[
+              ["Less repeated work", "Cached frames and silhouettes reduce drawing during animations. Lightweight Jira searches run in parallel, while full task details load when you open a ticket."],
+              ["A dashboard ready to return", "Saved dashboard snapshots display while a fresh Jira request runs in the background. Refresh timeouts and retry backoff keep failures from leaving an endless updating state."],
+              ["Colorways, from light to dark", "Choose from 12 colorways with iOS-inspired colors, gradient notch backgrounds, matching controls, and text that adapts to light or dark mode. The original Graphite Dark stays the default."],
+              ["A notch at the edge you choose", "Enable Side docking in the redesigned Settings panel, then drag the notch to the left, right, or top edge. A vertical side tab expands inward. Switch it off to return to the top."],
+            ].map(([title, body]) => (
+              <article key={title} className="border-t border-white/10 pt-5">
+                <h3 className="text-lg font-medium text-white">{title}</h3>
+                <p className="mt-3 text-base leading-relaxed text-[#a1a1aa]">{body}</p>
+              </article>
+            ))}
+          </div>
+          <p className="mt-8 text-sm leading-relaxed text-[#a1a1aa]">Also included: Jira status changes from the task inspector, custom dropdowns, cleaner typography, and borderless panels with traffic-light controls.</p>
         </section>
 
         {/* How to Login Video + Step-by-Step Instructions Section */}
@@ -406,8 +430,7 @@ export default function NotchiPage() {
                 </h3>
                 <p className="mt-2.5 text-[14px] text-[#a1a1aa] leading-relaxed">
                   Interior typography, status cards, and activity rings render
-                  onto a solid{" "}
-                  <code className="font-mono text-[#e4e4e7]">#09090b</code>{" "}
+                  onto your selected theme, with Graphite Dark as the default{" "}
                   canvas at 2× resolution and downsample via Lanczos filtering
                   before compositing against a binary silhouette mask. Your
                   desktop wallpaper never bleeds through anti-aliased subpixels.
@@ -438,7 +461,7 @@ export default function NotchiPage() {
               </div>
               <div className="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between text-[12px] font-mono text-[#696973]">
                 <span>Per-Monitor DPI Aware v2</span>
-                <span>Auto-saves X coordinate</span>
+                <span>Saved placement · Optional side docking</span>
               </div>
             </div>
 
@@ -517,7 +540,7 @@ export default function NotchiPage() {
                       Notchi for Windows (Standalone x64)
                     </h2>
                     <p className="text-[13px] text-[#a1a1aa]">
-                      Version 1.3.0 · Pre-compiled standalone executable archive
+                      Version {RELEASE.version} · {RELEASE.date}
                     </p>
                   </div>
                 </div>
@@ -526,14 +549,14 @@ export default function NotchiPage() {
                   Packaged as a self-contained native Windows executable (
                   <code className="font-mono text-[#e4e4e7]">Notchi.exe</code>).
                   No Python installation, runtime libraries, or administrator
-                  privileges required. Extract anywhere and launch.
+                  privileges required. Extract anywhere and launch. To update, quit Notchi first and replace your previous executable. Your saved preferences remain local.
                 </p>
 
                 {/* SHA-256 Checksum Bar */}
                 <div className="mt-6 p-3.5 rounded-xl bg-[#09090b] border border-white/[0.06] flex items-center justify-between gap-3">
                   <div className="min-w-0">
                     <div className="text-[10px] font-mono uppercase text-[#696973]">
-                      SHA-256 Checksum (Notchi-Windows-x64.zip)
+                      SHA-256 Checksum · v{RELEASE.version} archive
                     </div>
                     <div className="font-mono text-[11px] text-[#a1a1aa] truncate mt-0.5">
                       {SHA256_HASH}
@@ -560,18 +583,18 @@ export default function NotchiPage() {
 
               <div className="lg:col-span-5 flex flex-col gap-3.5 lg:pl-6 lg:border-l lg:border-white/[0.07]">
                 <a
-                  href="/downloads/Notchi-Windows-x64.zip"
+                  href={RELEASE.download}
                   download
                   className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-[#f4f4f6] hover:bg-white text-[#09090b] font-semibold text-[15px] transition-all"
                 >
                   <Download className="w-4 h-4" />
-                  <span>Download Notchi-Windows-x64.zip</span>
+                  <span>Download Notchi v{RELEASE.version}</span>
                 </a>
 
                 <div className="rounded-xl bg-[#09090b] border border-white/[0.06] p-4 space-y-2 text-[12px] font-mono">
                   <div className="flex justify-between text-[#a1a1aa]">
                     <span className="text-[#696973]">Archive Size</span>
-                    <span>30.8 MB (.zip)</span>
+                    <span>{RELEASE.size} (.zip)</span>
                   </div>
                   <div className="flex justify-between text-[#a1a1aa]">
                     <span className="text-[#696973]">Binary Target</span>

@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Notchi — Hardware-Grade Jira Notch for Windows",
   description:
-    "A tactile macOS-inspired top-bezel notch utility for Windows. Live Jira Kanban counts, bubble-animated task lists, and full ticket inspection without opening a browser tab.",
+    "A customizable Jira notch for Windows with cached dashboards, gradient colorways, optional side docking, and task status updates from your desktop.",
   icons: {
     icon: "/notchi-icon.png",
   },

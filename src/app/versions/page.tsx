@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { RELEASE } from "@/lib/release";
 import { ChevronDown, Download, GitCommitHorizontal } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -8,6 +9,21 @@ export const metadata: Metadata = {
 };
 
 const releases = [
+  {
+    version: RELEASE.version,
+    title: "Performance, colorways & side docking",
+    description: "Less repeated drawing, a cached dashboard, and a notch that fits your desktop. Released 24 November 2026.",
+    changes: [
+      ["Animation optimizations", "Reuse animation frames, content layers, and silhouette masks instead of repeatedly drawing text and cards during movement. Button feedback and panel animations avoid rebuilding layouts on every frame."],
+      ["Cached dashboard & lighter syncing", "Restore a saved dashboard for the selected account and view while refreshing Jira in the background. Developer and IQA searches run in parallel; full ticket details load on demand. Successful refreshes replace the snapshot, and failed requests keep the last successful data."],
+      ["Refresh recovery", "Bound refresh waits, clear stale error indicators when retrying, and back off automatic retries after failures. Use View Last Sync Error from the context menu for diagnostics."],
+      ["12 colorways, light & dark", "Graphite plus iOS-inspired Blue, Indigo, Purple, Pink, Red, Orange, Yellow, Green, Mint, Teal, and Cyan. Color themes add gradient notch backgrounds and matching controls, with dark text in light mode and light text in dark mode. Graphite Dark retains the original near-black default."],
+      ["Optional drag-to-edge side docking", "Turn on Side docking in Settings, then drag the notch to the left, right, or top edge. Side mode uses a vertical tab that expands inward into the horizontal dashboard. Turning the option off restores top placement. The preference is saved locally."],
+      ["Redesigned Settings & task panels", "A borderless Settings panel shares the task inspector’s styling, draggable header, traffic-light controls, and scrolling without a visible scrollbar. Refined typography, custom dropdowns, and button feedback carry through the task windows."],
+      ["Update task status inside Notchi", "Load the transitions allowed by the task’s Jira workflow, complete required fields when prompted, and save directly to Jira. The dashboard refreshes after the change."],
+      ["Updating this release", "Quit the running app, extract the new archive, and replace the previous Notchi.exe. Existing account and appearance preferences remain in the local Notchi folder. An automatic updater is not included."],
+    ],
+  },
   {
     version: "1.3.0",
     title: "Multi-space Kanban & role detection",
@@ -59,12 +75,12 @@ export default function VersionsPage() {
           <Link href="/" aria-label="Notchi home" className="flex items-center gap-3.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
             <img src="/notchi-icon.png" alt="" width={32} height={32} className="rounded-lg border border-white/10" />
             <span className="text-[15px] font-semibold tracking-tight">Notchi</span>
-            <span className="hidden rounded border border-white/[0.07] bg-white/[0.05] px-2 py-0.5 font-mono text-[11px] text-[#a1a1aa] sm:inline">v1.3.0 · Win x64</span>
+            <span className="hidden rounded border border-white/[0.07] bg-white/[0.05] px-2 py-0.5 font-mono text-[11px] text-[#a1a1aa] sm:inline">v{RELEASE.version} · Win x64</span>
           </Link>
           <nav aria-label="Main navigation" className="flex items-center gap-5 text-sm sm:gap-8">
             <Link href="/" className="text-[#a1a1aa] transition-colors hover:text-white">Home</Link>
             <Link href="/versions" aria-current="page" className="text-white">Versions</Link>
-            <a href="/downloads/Notchi-Windows-x64.zip" download className="inline-flex items-center gap-2 rounded-lg bg-[#f4f4f6] px-3.5 py-1.5 font-medium text-[#09090b] transition-colors hover:bg-white">
+            <a href={RELEASE.download} download className="inline-flex items-center gap-2 rounded-lg bg-[#f4f4f6] px-3.5 py-1.5 font-medium text-[#09090b] transition-colors hover:bg-white">
               <Download className="h-3.5 w-3.5" aria-hidden="true" />
               Download
             </a>
@@ -101,6 +117,15 @@ export default function VersionsPage() {
               </summary>
 
               <div className="pb-8 sm:pl-32">
+                {index === 0 && (
+                  <figure className="mb-6 overflow-hidden rounded-xl border border-white/10 bg-black">
+                    <video controls playsInline preload="metadata" className="aspect-video w-full" aria-label="Notchi version 1.4.0 release walkthrough">
+                      <source src={RELEASE.video} type="video/mp4" />
+                      <a href={RELEASE.video}>Watch the release walkthrough</a>
+                    </video>
+                    <figcaption className="px-5 py-3 text-sm text-[#a1a1aa]">The latest desktop walkthrough · 24 November 2026</figcaption>
+                  </figure>
+                )}
                 <div className="rounded-xl border border-white/[0.07] bg-[#0e0e12] px-5 sm:px-6">
                   {release.changes.map(([title, body]) => (
                     <div key={title} className="border-b border-white/[0.06] py-5 last:border-0">
@@ -111,8 +136,8 @@ export default function VersionsPage() {
                 </div>
                 {index === 0 && (
                   <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
-                    <span className="font-mono text-xs text-[#a1a1aa]">Windows 10/11 · x64</span>
-                    <a href="/downloads/Notchi-Windows-x64.zip" download className="inline-flex items-center gap-2 rounded-lg bg-[#f4f4f6] px-4 py-2 text-sm font-medium text-[#09090b] transition-colors hover:bg-white">
+                    <span className="font-mono text-xs text-[#a1a1aa]">Windows 10/11 · x64 · {RELEASE.size}</span>
+                    <a href={RELEASE.download} download className="inline-flex items-center gap-2 rounded-lg bg-[#f4f4f6] px-4 py-2 text-sm font-medium text-[#09090b] transition-colors hover:bg-white">
                       <Download className="h-3.5 w-3.5" aria-hidden="true" />
                       Download v{release.version}
                     </a>
