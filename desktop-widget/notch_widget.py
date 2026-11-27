@@ -22,6 +22,7 @@ from datetime import datetime
 from collections import Counter
 import tkinter as tk
 from PIL import Image, ImageDraw, ImageTk, ImageFont
+from notchi_updater import APP_VERSION, check_release, download_release, launch_installer
 
 # Enable Per-Monitor DPI awareness on Windows for razor-sharp typography & exact multi-monitor bounds
 try:
@@ -3279,7 +3280,7 @@ class NotchDesktopWidget:
 
         self.menu = tk.Menu(self.root, tearoff=0, bg=theme_color("#141418"), fg=theme_color("#f4f4f6"), activebackground=theme_color("#262630"))
         self.menu.add_command(label="Refresh Jira Now", command=lambda: self.trigger_sync(manual=True))
-        self.menu.add_command(label="Settings · Appearance…", command=self.open_settings)
+        self.menu.add_command(label="Settings · Appearance & Updates…", command=self.open_settings)
         self.menu.add_command(label="View Last Sync Error", command=self.show_last_sync_error)
         self.menu.add_command(label="Open SM360 Board in Browser", command=self.open_board)
         self.menu.add_command(label="Toggle Pin Expanded", command=self.toggle_pin)
@@ -4121,6 +4122,56 @@ class NotchDesktopWidget:
         toggle.itemconfigure(toggle._switch_item, image=toggle._switch_image)
         self.side_toggle_note.set("Drag the notch to the left, right, or top edge." if self.side_docking_enabled else "Off · The notch stays at the top.")
 
+    def refresh_update_controls(self):
+        button = getattr(self, "update_button", None)
+        if button is not None and button.winfo_exists():
+            busy = getattr(self, "update_busy", False)
+            button.configure(state="disabled" if busy else "normal",
+                             text="Please wait…" if busy else "Update and restart" if getattr(self, "available_release", None) else "Check for updates")
+            self.update_note.set(getattr(self, "update_message", "Check for a new version of Notchi."))
+
+    def handle_update(self):
+        if getattr(self, "update_busy", False):
+            return
+        release = getattr(self, "available_release", None)
+        if release and not getattr(sys, "frozen", False):
+            self.update_message = "Run the packaged Notchi.exe to install updates."
+            self.refresh_update_controls()
+            return
+        self.update_busy = True
+        self.update_message = "Downloading and verifying update…" if release else "Checking for updates…"
+        self.refresh_update_controls()
+        results = queue.Queue()
+        def work():
+            try:
+                results.put((True, download_release(release) if release else check_release()))
+            except Exception as exc:
+                results.put((False, str(exc)))
+        threading.Thread(target=work, daemon=True).start()
+        def poll():
+            try:
+                success, result = results.get_nowait()
+            except queue.Empty:
+                self.root.after(100, poll)
+                return
+            self.update_busy = False
+            if not success:
+                self.update_message = "Update failed: " + result
+            elif release:
+                try:
+                    launch_installer(result, sys.executable, os.getpid())
+                except Exception as exc:
+                    self.update_message = "Could not start update: " + str(exc)
+                else:
+                    self.close_app()
+                    return
+            else:
+                self.available_release = result
+                self.update_message = (f"Version {result['version']} is available. Updating will restart Notchi." if result
+                                       else f"You're up to date · Version {APP_VERSION}")
+            self.refresh_update_controls()
+        self.root.after(100, poll)
+
     def open_settings(self):
         if self.settings_win is not None and self.settings_win.winfo_exists():
             self.settings_win.deiconify()
@@ -4164,6 +4215,16 @@ class NotchDesktopWidget:
         item = canvas.create_window(0, 0, window=body, anchor="nw")
         canvas.bind("<Configure>", lambda event: canvas.itemconfigure(item, width=event.width))
         body.bind("<Configure>", lambda event: canvas.configure(scrollregion=canvas.bbox("all")))
+        panel_label(body, text=f"Notchi {APP_VERSION}", bg=theme_color("#09090b"), fg=theme_color("#f4f4f6"), font=PANEL_TITLE_FONT, anchor="w").pack(fill="x")
+        self.update_note = tk.StringVar()
+        panel_label(body, textvariable=self.update_note, bg=theme_color("#09090b"), fg=theme_color("#a1a1aa"), font=PANEL_SMALL_FONT, anchor="w", wraplength=390).pack(fill="x", pady=(6, 10))
+        self.update_button = MotionButton(body, text="Check for updates", command=self.handle_update,
+                                         bg=theme_color("#141418"), fg=theme_color("#f4f4f6"),
+                                         activebackground=theme_color("#24242e"), activeforeground=theme_color("#f4f4f6"),
+                                         relief="flat", bd=0, padx=16, pady=10, font=PANEL_SMALL_FONT)
+        self.update_button.pack(anchor="w", pady=(0, 18))
+        self.refresh_update_controls()
+        tk.Frame(body, height=1, bg=theme_color("#22222a")).pack(fill="x", pady=(0, 18))
         dock_row = tk.Frame(body, bg=theme_color("#09090b"))
         dock_row.pack(fill="x", pady=(0, 4))
         panel_label(dock_row, text="Side docking", bg=theme_color("#09090b"), fg=theme_color("#f4f4f6"), font=PANEL_BODY_FONT, anchor="w").pack(side="left")

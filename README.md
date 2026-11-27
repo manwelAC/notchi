@@ -2,7 +2,11 @@
 
 A Jira desktop notch for Windows 10/11 x64.
 
-## Latest release: 1.4.0 — 24 November 2026
+## Latest release: 1.5.0 — 27 November 2026
+
+- **Check for updates** in Settings, then **Update and restart** when a newer release is available.
+- Background downloads with size and SHA-256 verification; saved account and appearance preferences stay local.
+- Requires a writable app folder and Windows PowerShell. Users on 1.4.0 or earlier need one manual upgrade to receive the updater.
 
 - Cached rendering and silhouette masks reduce repeated drawing during animations.
 - Saved dashboard snapshots display while Jira refreshes; role searches run in parallel and full task details load on demand.
@@ -18,10 +22,10 @@ A Jira desktop notch for Windows 10/11 x64.
 
 ## Download
 
-[Notchi 1.4.0 for Windows x64](public/downloads/Notchi-1.4.0-Windows-x64.zip)
+[Notchi 1.5.0 for Windows x64](public/downloads/Notchi-1.5.0-Windows-x64.zip)
 
 Quit Notchi before replacing the executable. Extract the archive and run `Notchi.exe`.
-Local preferences remain in `%LOCALAPPDATA%\Notchi`. This release has no automatic updater.
+Local preferences remain in `%LOCALAPPDATA%\Notchi`. After this manual upgrade, use Settings to check for future releases and update.
 Package size and SHA-256 are recorded in `public/downloads/release.json` and displayed on the website.
 
 ## Website

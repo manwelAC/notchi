@@ -304,7 +304,7 @@ export default function NotchiPage() {
           <VideoShowcasePlayer
             src={RELEASE.video}
             badgeText="New in v1.4.0"
-            subtitle="Watch the latest Notchi desktop walkthrough."
+            subtitle="Watch the v1.4.0 desktop walkthrough. v1.5.0 adds updates in Settings."
             footerLeft="RELEASE WALKTHROUGH · 24 NOVEMBER 2026 · 1280×720"
           />
         </section>
@@ -313,12 +313,14 @@ export default function NotchiPage() {
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="mb-3 font-mono text-xs uppercase tracking-wider text-[#a1a1aa]">v{RELEASE.version} · {RELEASE.date}</p>
-              <h2 className="text-3xl font-semibold tracking-tight text-white">A smoother notch. More your own.</h2>
+              <h2 className="text-3xl font-semibold tracking-tight text-white">Your next update is in Settings.</h2>
             </div>
             <Link href={`/versions#v${RELEASE.version}`} className="text-sm text-[#e4e4e7] underline underline-offset-4">Full release notes</Link>
           </div>
           <div className="grid gap-x-10 gap-y-8 md:grid-cols-2">
             {[
+              ["Update from inside Notchi", "Check for updates in Settings. When a new version is available, choose Update and restart to download it and restart the app."],
+              ["Verified downloads, saved preferences", "Notchi verifies the archive size and SHA-256 before replacing the executable. Your account and appearance preferences stay on your computer."],
               ["Less repeated work", "Cached frames and silhouettes reduce drawing during animations. Lightweight Jira searches run in parallel, while full task details load when you open a ticket."],
               ["A dashboard ready to return", "Saved dashboard snapshots display while a fresh Jira request runs in the background. Refresh timeouts and retry backoff keep failures from leaving an endless updating state."],
               ["Colorways, from light to dark", "Choose from 12 colorways with iOS-inspired colors, gradient notch backgrounds, matching controls, and text that adapts to light or dark mode. The original Graphite Dark stays the default."],
@@ -330,7 +332,7 @@ export default function NotchiPage() {
               </article>
             ))}
           </div>
-          <p className="mt-8 text-sm leading-relaxed text-[#a1a1aa]">Also included: Jira status changes from the task inspector, custom dropdowns, cleaner typography, and borderless panels with traffic-light controls.</p>
+          <p className="mt-8 text-sm leading-relaxed text-[#a1a1aa]">Using v1.4.0 or earlier? Quit Notchi and replace the executable once to receive the update button. Future releases can use Settings. Keep the app in a writable folder; Windows PowerShell is required.</p>
         </section>
 
         {/* How to Login Video + Step-by-Step Instructions Section */}
@@ -549,7 +551,7 @@ export default function NotchiPage() {
                   Packaged as a self-contained native Windows executable (
                   <code className="font-mono text-[#e4e4e7]">Notchi.exe</code>).
                   No Python installation, runtime libraries, or administrator
-                  privileges required. Extract anywhere and launch. To update, quit Notchi first and replace your previous executable. Your saved preferences remain local.
+              privileges required. Extract to a writable folder and launch. For v1.4.0 or earlier, quit Notchi and replace the executable once. After that, use Settings to check for updates and restart. Your saved preferences remain local.
                 </p>
 
                 {/* SHA-256 Checksum Bar */}

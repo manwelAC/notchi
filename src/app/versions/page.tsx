@@ -11,6 +11,17 @@ export const metadata: Metadata = {
 const releases = [
   {
     version: RELEASE.version,
+    title: "Updates from inside Notchi",
+    description: "Check for new versions and update without manually replacing the app. Released 27 November 2026.",
+    changes: [
+      ["Check for updates", "Open Settings to check for a newer release. When one is available, choose Update and restart."],
+      ["Verified downloads & restart", "Notchi checks the download size and SHA-256 before replacing its executable and restarting. Downloads run in the background."],
+      ["Keep your preferences", "Your saved account, appearance, and dashboard cache stay in the local Notchi folder."],
+      ["One final manual upgrade", "If you are using 1.4.0 or earlier, quit Notchi and replace Notchi.exe with this release to receive the update button. Future releases can use the button. Keep Notchi in a writable folder; Windows PowerShell is required."],
+    ],
+  },
+  {
+    version: "1.4.0",
     title: "Performance, colorways & side docking",
     description: "Less repeated drawing, a cached dashboard, and a notch that fits your desktop. Released 24 November 2026.",
     changes: [
